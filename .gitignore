@@ -21,3 +21,9 @@ dist/
 # OS-specific
 .DS_Store
 Thumbs.db
+
+# Dataset
+dataset/
+
+# notebooks
+notebooks/
