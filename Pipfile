@@ -14,9 +14,11 @@ accelerate = "*"
 evaluate = "*"
 timm = "*"
 matplotlib = "*"
+wandb = "*"
 numpy = "==1.26.4"
 pandas = "==1.5.3"
 scikit-learn = "*"
+OmegaConf = "*"
 
 [dev-packages]
 ipykernel = "*"

@@ -1,0 +1,29 @@
+project_name: RegretLess
+random_seed: 42
+
+dataset:
+  fold_idx: 0
+  win_len: 1024
+  val_ratio: 0.1
+  sinr_db_min: -30
+  sinr_db_max: 0
+  batch_size: 32
+  num_workers: 4
+  split_names:
+    - train_indices
+    - test_indices
+  sps: 16
+  span: 8
+  beta: 0.5
+  use_balanced_sampler: True
+  folds_yaml_path: dataset/folds.yaml
+  data_pt_path: dataset/combined_signals.pt
+
+training:
+  seed: 42
+  lr: 0.0001
+  weight_decay: 0.01
+  steps: 100000
+  mixed_precision: True
+  log_freq: 10
+

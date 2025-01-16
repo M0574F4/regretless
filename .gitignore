@@ -27,3 +27,11 @@ dataset/
 
 # notebooks
 notebooks/
+
+experiments/
+wandb/
+
+# key.txt
+key.txt
+
+trainer.sh
