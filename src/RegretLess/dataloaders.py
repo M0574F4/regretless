@@ -206,7 +206,7 @@ def get_dataloaders(config_all):
     """
     config = config_all["dataset"]
     # Set seeds
-    seed_everything(config_all["random_seed"])
+    seed_everything(config_all["seed"])
 
     # Load data dict (each entry is [num_frames, num_samples, 2])
     data_dict = torch.load(config["data_pt_path"])
@@ -223,7 +223,7 @@ def get_dataloaders(config_all):
     if not found_val_split:
         val_ratio = config["val_ratio"]
         split_train_into_train_val(fold_split, val_ratio=val_ratio,
-                                   seed=config_all["random_seed"])
+                                   seed=config_all["seed"])
 
     # Create QPSK modulator
     qpsk_mod = QPSKModulator(
@@ -290,9 +290,10 @@ def get_dataloaders(config_all):
     # Build DataLoaders
     # -------------------------------------------------------
     g = torch.Generator()
-    g.manual_seed(config_all["random_seed"])
+    g.manual_seed(config_all["seed"])
 
     batch_size = config["batch_size"]
+    batch_size_val = config["batch_size_val"]
     num_workers = config["num_workers"]
     dataloaders = {}
     for split_name, ds_obj in dataset_objects.items():
@@ -309,7 +310,7 @@ def get_dataloaders(config_all):
             dl = DataLoader(ds_obj,
                             shuffle=False,
                             drop_last=False,
-                            batch_size=batch_size,
+                            batch_size=batch_size_val,
                             num_workers=num_workers,
                             worker_init_fn=seed_worker,
                             generator=g,

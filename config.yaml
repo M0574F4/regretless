@@ -1,14 +1,31 @@
-project_name: RegretLess
-random_seed: 42
-
+model:
+  name: "multiexit_unet"
+  filters: [64, 128, 256, 512, 512, 512, 512, 512, 512, 512, 512, 512]
+  strides: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2 ,2]
+  num_res_units: 2
+  spatial_dims: 1
+  in_channels: 2
+  out_channels: 2
+  exit_out_channels: 2
+  exit_at_stages: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  exit_weights: [2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2, 1] # from bottleneck-side ----> output-side
+  bottleneck:
+    type: "resnet" # mobilenetv2 resnet 
+    expansion: 2
+  loss:
+    softness: 10
+    limit_db: -50
+    per_sample: True
+    
 dataset:
+  batch_size: 64
+  batch_size_val: 1
+  win_len: 40960
+  num_workers: 5
   fold_idx: 0
-  win_len: 1024
-  val_ratio: 0.1
   sinr_db_min: -30
   sinr_db_max: 0
-  batch_size: 32
-  num_workers: 4
+  val_ratio: 0
   split_names:
     - train_indices
     - test_indices
@@ -20,10 +37,13 @@ dataset:
   data_pt_path: dataset/combined_signals.pt
 
 training:
-  seed: 42
+  steps: 100000
   lr: 0.0001
   weight_decay: 0.01
-  steps: 100000
   mixed_precision: True
   log_freq: 10
+  model_saving_freq: 100
 
+
+seed: 42
+project_name: RegretLess
